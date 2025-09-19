@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://techc-venture.com/sitemap.xml
+
+# Block admin areas
+Disallow: /admin/
+Disallow: /_nuxt/
+Disallow: /api/
+
+# Allow specific paths
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Crawl delay (optional)
+Crawl-delay: 1
