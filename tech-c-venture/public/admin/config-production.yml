@@ -1,0 +1,64 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# メディアファイルの設定
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# サイト設定
+site_url: https://f-tcv.com
+display_url: https://f-tcv.com
+logo_url: /images/logo/logo.png
+
+# 日本語設定
+locale: 'ja'
+
+# エディタの設定
+editor:
+  preview: true
+
+# コレクション定義
+collections:
+  # ブログ記事
+  - name: "blog"
+    label: "ブログ記事"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "blog/{{slug}}"
+    fields:
+      - { label: "タイトル", name: "title", widget: "string", required: true }
+      - { label: "説明", name: "description", widget: "text", required: true }
+      - { label: "公開日", name: "date", widget: "datetime", required: true }
+      - {
+          label: "カテゴリ",
+          name: "category",
+          widget: "select",
+          options: ["お知らせ", "技術", "開発", "イベント", "メンバー"],
+          required: true
+        }
+      - { label: "公開状態", name: "published", widget: "boolean", default: true }
+      - {
+          label: "アイキャッチ画像",
+          name: "image",
+          widget: "image",
+          required: false,
+          media_library: {
+            config: {
+              multiple: false
+            }
+          }
+        }
+      - { label: "著者", name: "author", widget: "string", required: false }
+      - { label: "タグ", name: "tags", widget: "list", required: false }
+      - { label: "本文", name: "body", widget: "markdown", required: true }
+
+# ワークフロー設定
+publish_mode: editorial_workflow
+
+# プレビュー設定
+show_preview_links: true
+
+# 検索機能
+search: true

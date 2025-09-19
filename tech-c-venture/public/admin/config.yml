@@ -1,12 +1,15 @@
+# 本番環境では git-gateway を使用（要Netlify Identity設定）
+# backend:
+#   name: git-gateway
+#   branch: main
+
+# 開発環境用のGitHub直接設定
 backend:
   name: github
   repo: Tech-C-Venture/HP
   branch: main
-  # GitHubの直接認証を使用（OAuth App必要）
-  # base_url: https://f-tcv.com
-  # auth_endpoint: api/auth
 
-# ローカル開発用の設定（本番環境ではコメントアウト）
+# ローカル開発用の設定
 local_backend: true
 
 # メディアファイルの設定

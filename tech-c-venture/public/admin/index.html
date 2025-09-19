@@ -8,6 +8,27 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
+    <!-- 本番環境でのアクセス制限 -->
+    <script>
+      // 本番環境（localhost以外）でのアクセスを制限
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        document.body.innerHTML = `
+          <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif; padding: 2rem;">
+            <h1 style="color: #dc2626; margin-bottom: 1rem;">アクセス制限</h1>
+            <p style="margin-bottom: 0.5rem;">このCMS管理画面は開発環境でのみ利用可能です。</p>
+            <p style="margin-bottom: 2rem;">記事の投稿や編集は、GitHubリポジトリで直接行ってください。</p>
+            <a href="https://github.com/Tech-C-Venture/HP" style="color: #2563eb; text-decoration: none; margin-bottom: 1rem; padding: 0.5rem 1rem; border: 1px solid #2563eb; border-radius: 0.25rem;">
+              GitHubリポジトリを開く →
+            </a>
+            <a href="/" style="color: #2563eb; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #2563eb; border-radius: 0.25rem;">
+              ← サイトトップに戻る
+            </a>
+          </div>
+        `;
+        throw new Error('Access restricted to development environment only');
+      }
+    </script>
+
     <!-- Decap CMS のスクリプトを読み込み -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
