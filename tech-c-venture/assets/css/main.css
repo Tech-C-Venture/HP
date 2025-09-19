@@ -375,6 +375,11 @@ a:hover {
 .hero {
   background: linear-gradient(135deg, var(--color-background) 0%, var(--color-surface) 100%);
   border-bottom: 1px solid var(--color-border);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 64px; /* ヘッダーの高さ分を確保 */
 }
 
 .hero-content {
@@ -410,6 +415,23 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+  .hero {
+    min-height: 100vh;
+    padding-top: 80px; /* モバイルでは少し多めの余白 */
+  }
+
+  .hero-logo {
+    height: 100px; /* モバイルでは少し小さく */
+  }
+
+  .hero-title {
+    font-size: 2rem; /* モバイル用にタイトルサイズ調整 */
+  }
+
+  .hero-description {
+    font-size: 1.125rem; /* モバイル用に説明文サイズ調整 */
+  }
+
   .hero-actions {
     flex-direction: column;
     align-items: center;

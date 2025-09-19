@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="hero section-padding">
+    <section class="hero">
       <div class="container">
         <div class="hero-content">
           <div class="hero-brand">
