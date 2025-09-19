@@ -3,16 +3,36 @@
  * Handles the OAuth token exchange for Decap CMS authentication
  */
 
+// GET request handler for OAuth callback
+export async function onRequestGet({ request, env }) {
+  const url = new URL(request.url)
+  const code = url.searchParams.get('code')
+  const state = url.searchParams.get('state')
+  const provider = url.searchParams.get('provider')
+
+  if (provider === 'github' && code) {
+    // GitHub OAuth処理のリダイレクト
+    return Response.redirect(`${url.origin}/auth?code=${code}&state=${state || ''}`, 302)
+  }
+
+  // 通常のOAuth token exchange
+  return await handleTokenExchange(code, state, env)
+}
+
 export async function onRequestPost({ request, env }) {
+  const { code, state } = await request.json()
+  return await handleTokenExchange(code, state, env)
+}
+
+async function handleTokenExchange(code, state, env) {
   // CORS headers
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   }
 
   try {
-    const { code, state } = await request.json()
 
     if (!code) {
       return new Response(JSON.stringify({
@@ -123,7 +143,7 @@ export async function onRequestOptions() {
     status: 200,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     }
   })
