@@ -1,10 +1,12 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: Tech-C-Venture/HP
   branch: main
-  squash_merges: true
+  base_url: https://f-tcv.com
+  auth_endpoint: api/auth
 
-# ローカル開発用の設定（デプロイ時はコメントアウト）
-# local_backend: true
+# ローカル開発用の設定（本番環境では自動でgit-gatewayに切り替わります）
+local_backend: true
 
 # メディアファイルの設定
 media_folder: "public/images/uploads"
