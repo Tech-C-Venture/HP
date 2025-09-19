@@ -2,11 +2,12 @@ backend:
   name: github
   repo: Tech-C-Venture/HP
   branch: main
-  base_url: https://f-tcv.com
-  auth_endpoint: api/auth
+  # GitHubの直接認証を使用（OAuth App必要）
+  # base_url: https://f-tcv.com
+  # auth_endpoint: api/auth
 
 # ローカル開発用の設定（本番環境ではコメントアウト）
-# local_backend: true
+local_backend: true
 
 # メディアファイルの設定
 media_folder: "public/images/uploads"
