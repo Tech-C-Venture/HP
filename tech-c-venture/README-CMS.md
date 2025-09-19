@@ -45,7 +45,7 @@ R2_ENDPOINT=https://your-account-id.r2.cloudflarestorage.com
 R2_PUBLIC_URL=https://your-custom-domain.com
 
 # サイト設定
-NUXT_PUBLIC_SITE_URL=https://techc-venture.com
+NUXT_PUBLIC_SITE_URL=https://f-tcv.com
 ```
 
 ### 2. Cloudflare R2バケット作成

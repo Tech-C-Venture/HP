@@ -4,7 +4,7 @@ backend:
   squash_merges: true
 
 # ローカル開発用の設定（デプロイ時はコメントアウト）
-local_backend: true
+# local_backend: true
 
 # メディアファイルの設定
 media_folder: "public/images/uploads"
