@@ -40,10 +40,14 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     // Private keys (only available on the server-side)
-    r2AccountId: process.env.R2_ACCOUNT_ID,
-    r2AccessKeyId: process.env.R2_ACCESS_KEY_ID,
-    r2SecretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
-    r2BucketName: process.env.R2_BUCKET_NAME || 'techc-venture-images',
+    r2: {
+      accountId: process.env.R2_ACCOUNT_ID,
+      accessKeyId: process.env.R2_ACCESS_KEY_ID,
+      secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+      bucketName: process.env.R2_BUCKET_NAME || 'techc-venture-images',
+      endpoint: process.env.R2_ENDPOINT || 'https://your-account-id.r2.cloudflarestorage.com',
+      publicUrl: process.env.R2_PUBLIC_URL || 'https://your-domain.com'
+    },
 
     // Public keys (exposed to the client-side)
     public: {

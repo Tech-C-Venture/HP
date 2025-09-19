@@ -4,15 +4,25 @@ backend:
   squash_merges: true
 
 # ローカル開発用の設定（デプロイ時はコメントアウト）
-# local_backend: true
+local_backend: true
 
+# メディアファイルの設定
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
+
+# Cloudflare R2との連携設定
+media_library:
+  name: uploadcare
+  config:
+    publicKey: "your_uploadcare_public_key"
+    multiple: false
+    tabs: "file camera url"
+    effects: "crop,rotate,enhance"
 
 # サイト設定
 site_url: https://techc-venture.com
 display_url: https://techc-venture.com
-logo_url: https://techc-venture.com/images/logo.png
+logo_url: /images/logo/logo.png
 
 # 日本語設定
 locale: 'ja'
@@ -42,7 +52,17 @@ collections:
           required: true
         }
       - { label: "公開状態", name: "published", widget: "boolean", default: true }
-      - { label: "アイキャッチ画像", name: "image", widget: "image", required: false }
+      - {
+          label: "アイキャッチ画像",
+          name: "image",
+          widget: "image",
+          required: false,
+          media_library: {
+            config: {
+              multiple: false
+            }
+          }
+        }
       - { label: "著者", name: "author", widget: "string", required: false }
       - { label: "タグ", name: "tags", widget: "list", required: false }
       - { label: "本文", name: "body", widget: "markdown", required: true }
@@ -56,7 +76,17 @@ collections:
     fields:
       - { label: "企業名", name: "name", widget: "string", required: true }
       - { label: "URL", name: "url", widget: "string", required: true }
-      - { label: "ロゴ", name: "logo", widget: "image", required: true }
+      - {
+          label: "ロゴ",
+          name: "logo",
+          widget: "image",
+          required: true,
+          media_library: {
+            config: {
+              multiple: false
+            }
+          }
+        }
       - { label: "説明", name: "description", widget: "text", required: true }
       - {
           label: "パートナータイプ",
@@ -78,7 +108,17 @@ collections:
     fields:
       - { label: "名前", name: "name", widget: "string", required: true }
       - { label: "役職", name: "role", widget: "string", required: true }
-      - { label: "プロフィール画像", name: "avatar", widget: "image", required: true }
+      - {
+          label: "プロフィール画像",
+          name: "avatar",
+          widget: "image",
+          required: true,
+          media_library: {
+            config: {
+              multiple: false
+            }
+          }
+        }
       - { label: "自己紹介", name: "description", widget: "text", required: true }
       - { label: "スキル", name: "skills", widget: "list", required: true }
       - { label: "GitHub", name: "github", widget: "string", required: false }
@@ -99,7 +139,16 @@ collections:
           - { label: "説明", name: "description", widget: "text" }
           - { label: "URL", name: "url", widget: "string" }
           - { label: "メールアドレス", name: "email", widget: "string" }
-          - { label: "ロゴ", name: "logo", widget: "image" }
+          - {
+              label: "ロゴ",
+              name: "logo",
+              widget: "image",
+              media_library: {
+                config: {
+                  multiple: false
+                }
+              }
+            }
 
       - label: "ナビゲーション"
         name: "navigation"
@@ -130,6 +179,9 @@ publish_mode: editorial_workflow
 
 # プレビュー設定
 show_preview_links: true
+
+# 検索機能
+search: true
 
 # 認証設定（GitHubベース）
 # 本番環境ではGitHub Appの設定が必要
