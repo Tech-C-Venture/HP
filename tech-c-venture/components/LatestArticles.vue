@@ -7,38 +7,31 @@
     <div v-else-if="articles && articles.length > 0" class="grid grid-cols-3">
       <article
         v-for="article in articles"
-        :key="article._path"
+        :key="article.id"
         class="card"
       >
-        <div v-if="article.image" class="article-image mb-md">
-          <img
-            :src="article.image"
-            :alt="article.title"
-            class="article-img"
-          />
-        </div>
 
         <div class="article-meta mb-sm">
           <time class="article-date">
             {{ formatDate(article.date) }}
           </time>
-          <span v-if="article.category" class="article-category">
-            {{ article.category }}
+          <span v-if="article.tag && article.tag.length > 0" class="article-category">
+            {{ article.tag[0] }}
           </span>
         </div>
 
         <h3 class="article-title">
-          <NuxtLink :to="article._path" class="article-link">
+          <NuxtLink :to="`/blog/${article.id || article._path}`" class="article-link">
             {{ article.title }}
           </NuxtLink>
         </h3>
 
         <p class="article-description">
-          {{ article.description }}
+          {{ extractDescription(article.body) }}
         </p>
 
         <div class="article-footer">
-          <NuxtLink :to="article._path" class="btn btn-secondary">
+          <NuxtLink :to="`/blog/${article.id || article._path}`" class="btn btn-secondary">
             続きを読む
           </NuxtLink>
         </div>
@@ -52,14 +45,15 @@
 </template>
 
 <script setup>
-// 最新記事を3件取得
-const { data: articles, pending } = await useAsyncData('latest-articles', () =>
-  queryContent('/blog')
-    .where({ published: { $ne: false } })
-    .sort({ date: -1 })
-    .limit(3)
-    .find()
+// MicroCMSから最新記事を3件取得
+const { getLatestBlogs } = useMicroCMS()
+
+const { data: articlesData, pending } = await useAsyncData('latest-articles', () =>
+  getLatestBlogs(3)
 )
+
+// articles.contentsを使用（MicroCMSのレスポンス形式）
+const articles = computed(() => articlesData.value?.contents || [])
 
 // 日付フォーマット関数
 const formatDate = (date) => {
@@ -70,25 +64,18 @@ const formatDate = (date) => {
     day: 'numeric'
   })
 }
+
+// 本文から概要を抽出する関数
+const extractDescription = (body) => {
+  if (!body) return ''
+  // HTMLタグを除去してテキストのみを取得
+  const text = body.replace(/<[^>]*>/g, '')
+  // 最初の100文字を取得
+  return text.length > 100 ? text.substring(0, 100) + '...' : text
+}
 </script>
 
 <style scoped>
-.article-image {
-  overflow: hidden;
-  border-radius: var(--radius-md);
-  aspect-ratio: 16 / 9;
-}
-
-.article-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.card:hover .article-img {
-  transform: scale(1.05);
-}
 
 .article-meta {
   display: flex;

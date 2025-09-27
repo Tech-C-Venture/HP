@@ -6,7 +6,7 @@ Tech.C Ventureのコーポレートサイト開発プロジェクト。自走で
 ## 技術スタック
 - **フロントエンド**: Nuxt 3（SSR/SSG）
 - **ビルドツール**: Vite
-- **CMS**: Nuxt Content + Decap CMS（GitHubリポ連携）
+- **CMS**: MicroCMS（ヘッドレスCMS）
 - **画像ストレージ**: Cloudflare R2 + Workers
 - **デプロイ**: Cloudflare Pages
 
@@ -109,36 +109,38 @@ Tech.C Ventureのコーポレートサイト開発プロジェクト。自走で
 
 ## 手動作業指示書
 
-### 1. GitHub設定
-1. **リポジトリの作成**
-   - GitHubで新しいリポジトリを作成
-   - リポジトリ名: `techc-venture-website`
+### 1. MicroCMS設定
+1. **MicroCMSアカウント作成・サービス作成**
+   - MicroCMSにサインアップ
+   - 新しいサービスを作成
+   - サービス名: `techc-venture`
 
-2. **Decap CMS用のGitHub App設定**
-   - GitHub Settings → Developer settings → OAuth Apps
-   - 新しいOAuth Appを作成
-   - Application name: `Tech.C Venture CMS`
-   - Homepage URL: `https://techc-venture.com`
-   - Authorization callback URL: `https://api.netlify.com/auth/done`
-   - Client IDとClient Secretを保存
+2. **ブログAPIの作成**
+   - API作成 → リスト形式を選択
+   - API ID: `blog`
+   - 以下のスキーマで設定:
+     - `title` (テキストフィールド/必須): タイトル
+     - `date` (日時/必須): 投稿日
+     - `tag` (セレクト/必須/複数選択): タグ
+       - 選択肢: "ブログ", "活動報告"
+     - `body` (リッチエディタV2/必須): 本文
 
-### 2. Netlify Identity設定
-1. **Netlifyアカウント作成・サイト接続**
-   - Netlifyにサインアップ
-   - GitHubリポジトリと連携
-   - サイトをデプロイ
+3. **スポンサーAPIの作成**
+   - API作成 → リスト形式を選択
+   - API ID: `sponsor`
+   - 以下のスキーマで設定:
+     - `company` (テキストフィールド/必須): 会社名
+     - `companyImage` (メディア/必須): 会社ロゴ
+     - `body` (テキストエリア/必須): 紹介文
+     - `url` (テキストフィールド): 会社URL
 
-2. **Identity機能の有効化**
-   - Netlify管理画面 → Identity → Enable Identity
-   - Registration: `Invite only` に設定
-   - External providers: GitHub を追加
-   - Git Gateway を有効化
+4. **API設定**
+   - APIキーを取得（読み取り専用推奨）
+   - エンドポイントURL確認:
+     - ブログ: `https://[service-domain].microcms.io/api/v1/blog`
+     - スポンサー: `https://[service-domain].microcms.io/api/v1/sponsor`
 
-3. **管理者ユーザーの招待**
-   - Identity → Invite users
-   - 管理者のメールアドレスを入力して招待
-
-### 3. Cloudflare関連の手動設定
+### 2. Cloudflare関連の手動設定
 1. **Cloudflare R2バケット作成**
    - Cloudflareダッシュボード → R2 Object Storage
    - バケット名: `techc-venture-images`
@@ -155,10 +157,14 @@ Tech.C Ventureのコーポレートサイト開発プロジェクト。自走で
 3. **環境変数設定**
    - Cloudflare Pages → Settings → Environment variables
    - 以下の変数を設定:
+     - `NUXT_PUBLIC_MICROCMS_SERVICE_DOMAIN`: MicroCMSのサービスドメイン
+     - `NUXT_PUBLIC_MICROCMS_API_KEY`: MicroCMSのAPIキー
      - `R2_ACCOUNT_ID`: CloudflareのAccount ID
      - `R2_ACCESS_KEY_ID`: R2のAccess Key ID
      - `R2_SECRET_ACCESS_KEY`: R2のSecret Access Key
      - `R2_BUCKET_NAME`: `techc-venture-images`
+     - `R2_ENDPOINT`: R2のエンドポイントURL
+     - `R2_PUBLIC_URL`: 公開URL
      - `NUXT_PUBLIC_SITE_URL`: `https://techc-venture.com`
 
 ### 4. DNS設定
@@ -167,18 +173,18 @@ Tech.C Ventureのコーポレートサイト開発プロジェクト。自走で
    - Cloudflare Pagesでカスタムドメインを設定
    - SSL/TLS設定: `Full (strict)`
 
-### 5. CMS利用方法
+### 4. CMS利用方法
 1. **管理画面アクセス**
-   - `https://yoursite.com/admin` にアクセス
-   - Netlify Identityでログイン
+   - MicroCMSの管理画面にアクセス
+   - `https://[service-domain].microcms.io`
 
 2. **記事投稿フロー**
-   - Draft → In Review → Ready → Published
-   - プレビュー機能で確認してから公開
+   - コンテンツ作成 → プレビュー確認 → 公開
+   - `published`フィールドで公開状態制御
 
-3. **画像アップロード**
-   - Decap CMSから直接アップロード
-   - Cloudflare R2に自動保存
+3. **画像管理**
+   - MicroCMSのメディアライブラリを使用
+   - 必要に応じてCloudflare R2と連携
 
 ## プロジェクト進行状況
 - ✅ **完了**: 全ての開発タスクが完了しました
@@ -186,9 +192,9 @@ Tech.C Ventureのコーポレートサイト開発プロジェクト。自走で
 - 📝 **状況**: 開発サーバー `http://localhost:3000` で動作確認可能
 
 ## 次に実行すべき手動作業
-1. **GitHub リポジトリ作成・プッシュ**
-2. **Netlify Identity 設定** (Decap CMS用)
+1. **MicroCMS サービス・API作成**
+2. **GitHub リポジトリ作成・プッシュ**
 3. **Cloudflare R2 バケット作成**
 4. **Cloudflare Pages デプロイ設定**
-5. **環境変数の設定**
+5. **環境変数の設定** (MicroCMS APIキーを含む)
 6. **DNS・ドメイン設定**

@@ -5,38 +5,48 @@
         <!-- 最初のセット -->
         <div
           v-for="partner in partners"
-          :key="`first-${partner.name}`"
+          :key="`first-${partner.id}`"
           class="partner-item"
         >
-          <a
-            :href="partner.url"
-            :title="partner.name"
-            target="_blank"
-            rel="noopener noreferrer"
+          <component
+            :is="partner.url ? 'a' : 'div'"
+            v-bind="partner.url ? { href: partner.url, target: '_blank', rel: 'noopener noreferrer' } : {}"
+            :title="partner.company"
             class="partner-link"
           >
-            <div class="partner-logo-placeholder">
-              {{ partner.name }}
+            <img
+              v-if="partner.companyImage"
+              :src="partner.companyImage.url"
+              :alt="partner.company"
+              class="partner-logo"
+            />
+            <div v-else class="partner-logo-placeholder">
+              {{ partner.company }}
             </div>
-          </a>
+          </component>
         </div>
         <!-- 無限ループのための複製セット -->
         <div
           v-for="partner in partners"
-          :key="`second-${partner.name}`"
+          :key="`second-${partner.id}`"
           class="partner-item"
         >
-          <a
-            :href="partner.url"
-            :title="partner.name"
-            target="_blank"
-            rel="noopener noreferrer"
+          <component
+            :is="partner.url ? 'a' : 'div'"
+            v-bind="partner.url ? { href: partner.url, target: '_blank', rel: 'noopener noreferrer' } : {}"
+            :title="partner.company"
             class="partner-link"
           >
-            <div class="partner-logo-placeholder">
-              {{ partner.name }}
+            <img
+              v-if="partner.companyImage"
+              :src="partner.companyImage.url"
+              :alt="partner.company"
+              class="partner-logo"
+            />
+            <div v-else class="partner-logo-placeholder">
+              {{ partner.company }}
             </div>
-          </a>
+          </component>
         </div>
       </div>
     </div>
@@ -46,34 +56,15 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-// パートナー企業のサンプルデータ
-const partners = ref([
-  {
-    name: 'サンプル企業A',
-    logo: '/images/partners/sample-a.png',
-    url: 'https://example.com'
-  },
-  {
-    name: 'サンプル企業B',
-    logo: '/images/partners/sample-b.png',
-    url: 'https://example.com'
-  },
-  {
-    name: 'サンプル企業C',
-    logo: '/images/partners/sample-c.png',
-    url: 'https://example.com'
-  },
-  {
-    name: 'サンプル企業D',
-    logo: '/images/partners/sample-d.png',
-    url: 'https://example.com'
-  },
-  {
-    name: 'サンプル企業E',
-    logo: '/images/partners/sample-e.png',
-    url: 'https://example.com'
-  }
-])
+// MicroCMSからスポンサー一覧を取得
+const { getSponsorsList } = useMicroCMS()
+
+const { data: sponsorsData } = await useAsyncData('sponsors-slider', () =>
+  getSponsorsList()
+)
+
+// スポンサー.contentsを使用（MicroCMSのレスポンス形式）
+const partners = computed(() => sponsorsData.value?.contents || [])
 
 const sliderContainer = ref(null)
 const currentOffset = ref(0)
@@ -158,12 +149,11 @@ onUnmounted(() => {
   width: auto;
   height: auto;
   object-fit: contain;
-  filter: grayscale(100%);
-  transition: filter 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
 .partner-link:hover .partner-logo {
-  filter: grayscale(0%);
+  transform: scale(1.05);
 }
 
 .partner-logo-placeholder {

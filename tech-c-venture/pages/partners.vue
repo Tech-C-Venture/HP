@@ -18,32 +18,29 @@
         <div class="partners-grid">
           <div
             v-for="partner in partners"
-            :key="partner.name"
+            :key="partner.id"
             class="partner-card"
           >
-            <a
-              :href="partner.url"
-              :title="partner.name"
-              target="_blank"
-              rel="noopener noreferrer"
+            <NuxtLink
+              :to="`/partners/${partner.id}`"
+              :title="partner.company"
               class="partner-link"
             >
               <div class="partner-logo-container">
                 <img
-                  :src="partner.logo"
-                  :alt="partner.name"
+                  v-if="partner.companyImage"
+                  :src="partner.companyImage.url"
+                  :alt="partner.company"
                   class="partner-logo"
                 />
-              </div>
-              <div class="partner-info">
-                <h3 class="partner-name">{{ partner.name }}</h3>
-                <p class="partner-description">{{ partner.description }}</p>
-                <div class="partner-meta">
-                  <span class="partner-type">{{ partner.type }}</span>
-                  <span class="partner-support">{{ partner.support }}</span>
+                <div v-else class="partner-logo-placeholder">
+                  {{ partner.company }}
                 </div>
               </div>
-            </a>
+              <div class="partner-info">
+                <h3 class="partner-name">{{ partner.company }}</h3>
+              </div>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -106,59 +103,13 @@
             </p>
           </div>
 
-          <div class="partnership-types">
-            <div class="partnership-card">
-              <h3>ゴールドパートナー</h3>
-              <div class="partnership-price">年間 50万円〜</div>
-              <ul class="partnership-benefits">
-                <li>企業ロゴの優先掲載</li>
-                <li>技術セミナー・勉強会の開催権</li>
-                <li>学生への直接的なメンタリング機会</li>
-                <li>優先的な学生紹介・採用支援</li>
-                <li>プロジェクトへの技術アドバイザー参加</li>
-              </ul>
-              <a href="mailto:partner@techc-venture.com?subject=ゴールドパートナーについて" class="btn btn-primary">
-                お問い合わせ
-              </a>
-            </div>
-
-            <div class="partnership-card">
-              <h3>シルバーパートナー</h3>
-              <div class="partnership-price">年間 20万円〜</div>
-              <ul class="partnership-benefits">
-                <li>企業ロゴの掲載</li>
-                <li>イベント共催の機会</li>
-                <li>学生との交流イベント参加</li>
-                <li>採用情報の優先的な告知</li>
-                <li>技術ブログでの企業紹介</li>
-              </ul>
-              <a href="mailto:partner@techc-venture.com?subject=シルバーパートナーについて" class="btn btn-primary">
-                お問い合わせ
-              </a>
-            </div>
-
-            <div class="partnership-card">
-              <h3>サポートパートナー</h3>
-              <div class="partnership-price">年間 5万円〜</div>
-              <ul class="partnership-benefits">
-                <li>企業ロゴの掲載</li>
-                <li>採用情報の掲載</li>
-                <li>学生向けセミナー参加</li>
-                <li>技術ブログでの記事投稿機会</li>
-                <li>コミュニティへの参加権</li>
-              </ul>
-              <a href="mailto:partner@techc-venture.com?subject=サポートパートナーについて" class="btn btn-secondary">
-                お問い合わせ
-              </a>
-            </div>
-          </div>
 
           <div class="text-center" style="margin-top: 3rem;">
             <p class="contact-note">
               その他のご協力方法についても、お気軽にご相談ください。<br>
               学生の成長と技術教育の発展に、ぜひご協力をお願いいたします。
             </p>
-            <a href="mailto:partner@techc-venture.com" class="btn btn-primary btn-lg">
+            <a href="mailto:info@dokkiitech.com" class="btn btn-primary btn-lg">
               協力企業について相談する
             </a>
           </div>
@@ -180,57 +131,15 @@ useSeoMeta({
 
 // 構造化データは後で追加
 
-// 協力企業データ（実際の運用時はCMSから取得）
-const partners = ref([
-  {
-    name: 'テックカンパニーA',
-    logo: '/images/partners/company-a.png',
-    url: 'https://example-a.com',
-    description: 'AI・機械学習領域でのイノベーションを推進する技術企業',
-    type: 'ゴールドパートナー',
-    support: '技術メンタリング・インターン提供'
-  },
-  {
-    name: 'スタートアップB',
-    logo: '/images/partners/company-b.png',
-    url: 'https://example-b.com',
-    description: 'Web3・ブロックチェーン技術の開発を手がけるスタートアップ',
-    type: 'シルバーパートナー',
-    support: 'プロジェクト協力・勉強会開催'
-  },
-  {
-    name: 'ITコンサルC',
-    logo: '/images/partners/company-c.png',
-    url: 'https://example-c.com',
-    description: '企業のDX推進を支援するITコンサルティング企業',
-    type: 'シルバーパートナー',
-    support: '業界知識提供・キャリア相談'
-  },
-  {
-    name: 'ソフトウェア企業D',
-    logo: '/images/partners/company-d.png',
-    url: 'https://example-d.com',
-    description: 'エンタープライズ向けソフトウェア開発企業',
-    type: 'サポートパートナー',
-    support: '技術ブログ協力・採用情報提供'
-  },
-  {
-    name: 'クラウド企業E',
-    logo: '/images/partners/company-e.png',
-    url: 'https://example-e.com',
-    description: 'クラウドインフラとDevOpsソリューションの提供企業',
-    type: 'サポートパートナー',
-    support: 'インフラ提供・技術セミナー'
-  },
-  {
-    name: 'フィンテック企業F',
-    logo: '/images/partners/company-f.png',
-    url: 'https://example-f.com',
-    description: '金融テクノロジーでイノベーションを起こすフィンテック企業',
-    type: 'ゴールドパートナー',
-    support: '実プロジェクト参加・技術指導'
-  }
-])
+// MicroCMSからスポンサー一覧を取得
+const { getSponsorsList } = useMicroCMS()
+
+const { data: sponsorsData } = await useAsyncData('sponsors-partners', () =>
+  getSponsorsList()
+)
+
+// スポンサー.contentsを使用（MicroCMSのレスポンス形式）
+const partners = computed(() => sponsorsData.value?.contents || [])
 </script>
 
 <style scoped>
@@ -278,6 +187,22 @@ const partners = ref([
   object-fit: contain;
 }
 
+.partner-logo-placeholder {
+  width: 200px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-border) 100%);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: var(--space-sm);
+}
+
 .partner-name {
   font-size: 1.25rem;
   font-weight: 600;
@@ -291,27 +216,6 @@ const partners = ref([
   margin-bottom: var(--space-md);
 }
 
-.partner-meta {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.partner-type {
-  display: inline-block;
-  background-color: var(--color-accent);
-  color: white;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  font-weight: 500;
-  width: fit-content;
-}
-
-.partner-support {
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-}
 
 .benefits-grid {
   display: grid;
@@ -342,64 +246,6 @@ const partners = ref([
   margin: 0 auto;
 }
 
-.partnership-types {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-xl);
-  margin-bottom: var(--space-2xl);
-}
-
-.partnership-card {
-  background: white;
-  padding: var(--space-2xl);
-  border-radius: var(--radius-lg);
-  text-align: center;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--color-border);
-  position: relative;
-}
-
-.partnership-card h3 {
-  font-size: 1.5rem;
-  color: var(--color-accent);
-  margin-bottom: var(--space-md);
-}
-
-.partnership-price {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--space-lg);
-  padding: var(--space-md);
-  background-color: var(--color-surface);
-  border-radius: var(--radius-md);
-}
-
-.partnership-benefits {
-  list-style: none;
-  padding: 0;
-  margin-bottom: var(--space-xl);
-  text-align: left;
-}
-
-.partnership-benefits li {
-  padding: var(--space-sm) 0;
-  border-bottom: 1px solid var(--color-border);
-  position: relative;
-  padding-left: var(--space-lg);
-}
-
-.partnership-benefits li:last-child {
-  border-bottom: none;
-}
-
-.partnership-benefits li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--color-accent);
-  font-weight: bold;
-}
 
 .contact-note {
   color: var(--color-text-muted);
@@ -415,9 +261,6 @@ const partners = ref([
     grid-template-columns: 1fr;
   }
 
-  .partnership-types {
-    grid-template-columns: 1fr;
-  }
 
   .benefits-grid {
     grid-template-columns: 1fr;

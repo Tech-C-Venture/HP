@@ -4,20 +4,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    '@nuxt/content',
     '@nuxtjs/seo',
     '@vueuse/nuxt'
   ],
-
-  content: {
-    documentDriven: true,
-    markdown: {
-      toc: {
-        depth: 3,
-        searchDepth: 3
-      }
-    }
-  },
 
   seo: {
     siteName: 'Tech.C Venture',
@@ -51,7 +40,9 @@ export default defineNuxtConfig({
 
     // Public keys (exposed to the client-side)
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+      microCmsServiceDomain: process.env.NUXT_PUBLIC_MICROCMS_SERVICE_DOMAIN,
+      microCmsApiKey: process.env.NUXT_PUBLIC_MICROCMS_API_KEY
     }
   }
 })

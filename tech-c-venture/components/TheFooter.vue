@@ -30,7 +30,7 @@
         <div class="footer-section">
           <h4 class="footer-subtitle">お問い合わせ</h4>
           <p class="footer-contact">
-            info@techc-venture.com
+            info@dokkiitech.com
           </p>
         </div>
       </div>

@@ -17,24 +17,15 @@
             <time class="article-date">
               {{ formatDate(article.date) }}
             </time>
-            <span v-if="article.category" class="article-category">
-              {{ article.category }}
+            <span v-if="article.tag && article.tag.length > 0" class="article-category">
+              {{ article.tag[0] }}
             </span>
           </div>
 
           <h1 class="article-title">{{ article.title }}</h1>
 
-          <div v-if="article.description" class="article-description">
-            {{ article.description }}
-          </div>
+          <!-- 概要はスキーマにないため非表示 -->
 
-          <div v-if="article.image" class="article-hero-image">
-            <img
-              :src="article.image"
-              :alt="article.title"
-              class="hero-img"
-            />
-          </div>
         </div>
       </header>
 
@@ -44,14 +35,15 @@
           <div class="article-layout">
             <!-- Content -->
             <div class="article-content">
-              <ContentRenderer :value="article" class="prose" />
+              <div class="prose" v-html="article.body"></div>
             </div>
 
             <!-- Table of Contents -->
             <aside class="article-sidebar">
               <div class="toc-container">
                 <h3>目次</h3>
-                <Toc :links="article.body?.toc?.links" />
+                <!-- TOCは後で実装 -->
+                <div class="toc-placeholder">目次機能は準備中です</div>
               </div>
 
               <!-- Share buttons -->
@@ -62,9 +54,9 @@
                     :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(articleUrl)}`"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="share-btn twitter"
+                    class="share-btn x"
                   >
-                    Twitter
+                    X
                   </a>
                   <a
                     :href="`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`"
@@ -94,20 +86,13 @@
           <div class="related-grid">
             <article
               v-for="relatedArticle in relatedArticles"
-              :key="relatedArticle._path"
+              :key="relatedArticle.id"
               class="related-card"
             >
-              <NuxtLink :to="relatedArticle._path" class="related-link">
-                <div v-if="relatedArticle.image" class="related-image">
-                  <img
-                    :src="relatedArticle.image"
-                    :alt="relatedArticle.title"
-                    class="related-img"
-                  />
-                </div>
+              <NuxtLink :to="`/blog/${relatedArticle.id}`" class="related-link">
                 <div class="related-content">
                   <h3 class="related-title">{{ relatedArticle.title }}</h3>
-                  <p class="related-description">{{ relatedArticle.description }}</p>
+                  <p class="related-description">{{ extractDescription(relatedArticle.body) }}</p>
                   <time class="related-date">
                     {{ formatDate(relatedArticle.date) }}
                   </time>
@@ -146,11 +131,12 @@ import { ref } from 'vue'
 
 const route = useRoute()
 const articleUrl = ref('')
+const { getBlogDetail, getBlogsByTag } = useMicroCMS()
 
 // 記事データを取得
-const { data: article } = await useAsyncData(`blog-${route.params.slug}`, async () => {
+const { data: article } = await useAsyncData(`blog-${route.params.id}`, async () => {
   try {
-    const articleData = await queryContent('/blog', route.params.slug).findOne()
+    const articleData = await getBlogDetail(route.params.id)
     return articleData
   } catch (error) {
     throw createError({
@@ -160,20 +146,16 @@ const { data: article } = await useAsyncData(`blog-${route.params.slug}`, async 
   }
 })
 
-// 関連記事を取得（同じカテゴリの記事を3件）
-const { data: relatedArticles } = await useAsyncData(`related-${route.params.slug}`, async () => {
-  if (!article.value?.category) return []
+// 関連記事を取得（同じタグの記事を3件）
+const { data: relatedArticles } = await useAsyncData(`related-${route.params.id}`, async () => {
+  if (!article.value?.tag || article.value.tag.length === 0) return []
 
-  const related = await queryContent('/blog')
-    .where({
-      published: { $ne: false },
-      category: article.value.category,
-      _path: { $ne: article.value._path }
-    })
-    .limit(3)
-    .find()
+  const related = await getBlogsByTag(article.value.tag[0], {
+    limit: 3,
+    filters: `id[not_equals]${route.params.id}`
+  })
 
-  return related
+  return related.contents || []
 })
 
 // SEO設定
@@ -184,7 +166,7 @@ if (article.value) {
     ogTitle: article.value.title,
     ogDescription: article.value.description || '',
     ogType: 'article',
-    ogImage: article.value.image || '',
+    ogImage: '',
     articlePublishedTime: article.value.date,
     articleAuthor: article.value.author || 'Tech.C Venture',
     articleSection: article.value.category || '',
@@ -216,6 +198,15 @@ const copyToClipboard = async () => {
   } catch (err) {
     console.error('コピーに失敗しました:', err)
   }
+}
+
+// 本文から概要を抽出する関数
+const extractDescription = (body) => {
+  if (!body) return ''
+  // HTMLタグを除去してテキストのみを取得
+  const text = body.replace(/<[^>]*>/g, '')
+  // 最初の100文字を取得
+  return text.length > 100 ? text.substring(0, 100) + '...' : text
 }
 </script>
 
@@ -280,18 +271,6 @@ const copyToClipboard = async () => {
   margin-bottom: var(--space-xl);
 }
 
-.article-hero-image {
-  margin-top: var(--space-xl);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
-}
-
-.hero-img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
 
 .article-main {
   padding: var(--space-3xl) 0;
@@ -358,8 +337,8 @@ const copyToClipboard = async () => {
   transition: all 0.2s ease;
 }
 
-.share-btn.twitter {
-  background-color: #1DA1F2;
+.share-btn.x {
+  background-color: #000000;
   color: white;
 }
 
@@ -414,16 +393,6 @@ const copyToClipboard = async () => {
   text-decoration: none;
 }
 
-.related-image {
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-}
-
-.related-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
 .related-content {
   padding: var(--space-lg);

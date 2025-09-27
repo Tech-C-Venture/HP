@@ -206,7 +206,7 @@
         </div>
 
         <div class="text-center" style="margin-top: 3rem;">
-          <a href="mailto:info@techc-venture.com" class="btn btn-primary btn-lg">
+          <a href="mailto:info@dokkiitech.com" class="btn btn-primary btn-lg">
             参加申し込みをする
           </a>
         </div>

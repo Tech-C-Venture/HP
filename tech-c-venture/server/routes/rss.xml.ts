@@ -15,8 +15,8 @@ export default defineEventHandler(async (event) => {
     <atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml" />
     <language>ja</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <managingEditor>info@techc-venture.com (Tech.C Venture)</managingEditor>
-    <webMaster>info@techc-venture.com (Tech.C Venture)</webMaster>
+    <managingEditor>info@dokkiitech.com (Tech.C Venture)</managingEditor>
+    <webMaster>info@dokkiitech.com (Tech.C Venture)</webMaster>
 
 ${blogPosts.map((post: any) => `    <item>
       <title><![CDATA[${post.title}]]></title>
@@ -25,7 +25,7 @@ ${blogPosts.map((post: any) => `    <item>
       <guid isPermaLink="true">${siteUrl}${post._path}</guid>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       <category><![CDATA[${post.category || ''}]]></category>
-      ${post.author ? `<author>info@techc-venture.com (${post.author})</author>` : ''}
+      ${post.author ? `<author>info@dokkiitech.com (${post.author})</author>` : ''}
       ${post.image ? `<enclosure url="${siteUrl}${post.image}" type="image/jpeg" />` : ''}
     </item>`).join('\n')}
   </channel>
