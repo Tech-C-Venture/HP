@@ -124,47 +124,16 @@
             <div class="mentor-avatar">
               <div class="mentor-placeholder">👨‍💻</div>
             </div>
-            <h3>田中 太郎</h3>
+            <h3>木戸 亮輔</h3>
             <p class="mentor-role">フルスタックエンジニア</p>
             <p class="mentor-description">
-              10年以上のWeb開発経験を持ち、多数のプロジェクトをリード。フロントエンドからバックエンドまで幅広い技術領域をカバー。
+              Tech.C Ventureの創設者。10年以上のWeb開発経験を持ち、多数のプロジェクトをリード。フロントエンドからバックエンドまで幅広い技術領域をカバーし、次世代エンジニアの育成に情熱を注いでいます。
             </p>
             <div class="mentor-skills">
               <span class="skill-tag">React</span>
               <span class="skill-tag">Node.js</span>
               <span class="skill-tag">AWS</span>
-            </div>
-          </div>
-
-          <div class="mentor-card">
-            <div class="mentor-avatar">
-              <div class="mentor-placeholder">👩‍💻</div>
-            </div>
-            <h3>佐藤 花子</h3>
-            <p class="mentor-role">UI/UXデザイナー</p>
-            <p class="mentor-description">
-              デザインとフロントエンド開発の両方に精通し、ユーザー体験を重視したプロダクト開発に従事。
-            </p>
-            <div class="mentor-skills">
-              <span class="skill-tag">Figma</span>
-              <span class="skill-tag">Vue.js</span>
               <span class="skill-tag">TypeScript</span>
-            </div>
-          </div>
-
-          <div class="mentor-card">
-            <div class="mentor-avatar">
-              <div class="mentor-placeholder">🔧</div>
-            </div>
-            <h3>山田 次郎</h3>
-            <p class="mentor-role">DevOpsエンジニア</p>
-            <p class="mentor-description">
-              インフラ構築・運用の専門家として、CI/CD環境の構築やクラウドアーキテクチャ設計を担当。
-            </p>
-            <div class="mentor-skills">
-              <span class="skill-tag">Docker</span>
-              <span class="skill-tag">Kubernetes</span>
-              <span class="skill-tag">GCP</span>
             </div>
           </div>
         </div>
@@ -205,11 +174,6 @@
           </div>
         </div>
 
-        <div class="text-center" style="margin-top: 3rem;">
-          <a href="mailto:info@dokkiitech.com" class="btn btn-primary btn-lg">
-            参加申し込みをする
-          </a>
-        </div>
       </div>
     </section>
 
@@ -260,7 +224,7 @@
           </div>
 
           <div class="text-center" style="margin-top: 2rem;">
-            <a href="mailto:sponsor@techc-venture.com" class="btn btn-primary btn-lg">
+            <a href="https://forms.gle/8NjDuEtRBN14kEXS9" class="btn btn-primary btn-lg" target="_blank">
               協賛についてお問い合わせ
             </a>
           </div>

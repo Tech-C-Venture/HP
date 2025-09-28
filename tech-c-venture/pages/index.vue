@@ -12,9 +12,6 @@
             Tech.C.Ventureはメンバー全員が高め合い、学校の領域を超えて自走できるエンジニアを育成する団体です。
           </p>
           <div class="hero-actions">
-            <NuxtLink to="/about#join" class="btn btn-primary btn-lg">
-              参加申し込み
-            </NuxtLink>
             <NuxtLink to="/about#sponsor" class="btn btn-secondary btn-lg">
               協賛について
             </NuxtLink>

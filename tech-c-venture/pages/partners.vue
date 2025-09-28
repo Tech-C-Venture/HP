@@ -109,7 +109,7 @@
               その他のご協力方法についても、お気軽にご相談ください。<br>
               学生の成長と技術教育の発展に、ぜひご協力をお願いいたします。
             </p>
-            <a href="mailto:info@dokkiitech.com" class="btn btn-primary btn-lg">
+            <a href="https://forms.gle/8NjDuEtRBN14kEXS9" class="btn btn-primary btn-lg" target="_blank">
               協力企業について相談する
             </a>
           </div>
