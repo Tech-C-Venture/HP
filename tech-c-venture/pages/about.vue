@@ -122,7 +122,7 @@
         <div class="mentors-grid">
           <div class="mentor-card">
             <div class="mentor-avatar">
-              <div class="mentor-placeholder">👨‍💻</div>
+              <img src="/images/senzai.jpeg" alt="木戸 亮輔" class="mentor-image">
             </div>
             <h3>木戸 亮輔</h3>
             <p class="mentor-role">フルスタックエンジニア</p>
@@ -130,10 +130,12 @@
               Tech.C Ventureの創設者。10年以上のWeb開発経験を持ち、多数のプロジェクトをリード。フロントエンドからバックエンドまで幅広い技術領域をカバーし、次世代エンジニアの育成に情熱を注いでいます。
             </p>
             <div class="mentor-skills">
-              <span class="skill-tag">React</span>
-              <span class="skill-tag">Node.js</span>
-              <span class="skill-tag">AWS</span>
+              <span class="skill-tag">Next.js</span>
               <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">AWS</span>
+              <span class="skill-tag">Cloudflare</span>
+              <span class="skill-tag">Go</span>
+              <span class="skill-tag">Terraform</span>
             </div>
           </div>
         </div>
