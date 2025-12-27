@@ -6,34 +6,33 @@
 
     <div v-else-if="articles && articles.length > 0" class="grid grid-cols-3">
       <article
-        v-for="article in articles"
-        :key="article.id"
+        v-for="(article, index) in articles"
+        :key="index"
         class="card"
       >
-
         <div class="article-meta mb-sm">
           <time class="article-date">
-            {{ formatDate(article.date) }}
+            {{ formatDate(article.pubDate) }}
           </time>
-          <span v-if="article.tag && article.tag.length > 0" class="article-category">
-            {{ article.tag[0] }}
+          <span class="article-author">
+            {{ article.creator }}
           </span>
         </div>
 
         <h3 class="article-title">
-          <NuxtLink :to="`/blog/${article.id || article._path}`" class="article-link">
+          <a :href="article.link" target="_blank" rel="noopener noreferrer" class="article-link">
             {{ article.title }}
-          </NuxtLink>
+          </a>
         </h3>
 
         <p class="article-description">
-          {{ extractDescription(article.body) }}
+          {{ extractDescription(article.description) }}
         </p>
 
         <div class="article-footer">
-          <NuxtLink :to="`/blog/${article.id || article._path}`" class="btn btn-secondary">
+          <a :href="article.link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
             続きを読む
-          </NuxtLink>
+          </a>
         </div>
       </article>
     </div>
@@ -45,15 +44,17 @@
 </template>
 
 <script setup>
-// MicroCMSから最新記事を3件取得
-const { getLatestBlogs } = useMicroCMS()
+// ZennのRSSフィードから最新記事を3件取得
+const { data: articlesData, pending } = await useAsyncData('zenn-articles', async () => {
+  const response = await $fetch('/api/zenn-articles')
+  return response
+})
 
-const { data: articlesData, pending } = await useAsyncData('latest-articles', () =>
-  getLatestBlogs(3)
-)
-
-// articles.contentsを使用（MicroCMSのレスポンス形式）
-const articles = computed(() => articlesData.value?.contents || [])
+// 記事を最新3件に制限
+const articles = computed(() => {
+  const allArticles = articlesData.value?.articles || []
+  return allArticles.slice(0, 3)
+})
 
 // 日付フォーマット関数
 const formatDate = (date) => {
@@ -66,10 +67,10 @@ const formatDate = (date) => {
 }
 
 // 本文から概要を抽出する関数
-const extractDescription = (body) => {
-  if (!body) return ''
+const extractDescription = (description) => {
+  if (!description) return ''
   // HTMLタグを除去してテキストのみを取得
-  const text = body.replace(/<[^>]*>/g, '')
+  const text = description.replace(/<[^>]*>/g, '')
   // 最初の100文字を取得
   return text.length > 100 ? text.substring(0, 100) + '...' : text
 }
@@ -88,7 +89,7 @@ const extractDescription = (body) => {
   color: var(--color-text-muted);
 }
 
-.article-category {
+.article-author {
   background-color: var(--color-accent);
   color: white;
   padding: var(--space-xs) var(--space-sm);
