@@ -15,9 +15,9 @@
             <NuxtLink to="/about#sponsor" class="btn btn-secondary btn-lg">
               協賛について
             </NuxtLink>
-            <NuxtLink to="/blog" class="btn btn-secondary btn-lg">
+            <a href="https://zenn.dev/p/tcv_tech_blog" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg">
               記事を読む
-            </NuxtLink>
+            </a>
           </div>
         </div>
       </div>
@@ -77,9 +77,9 @@
         <LatestArticles />
 
         <div class="text-center" style="margin-top: 2rem;">
-          <NuxtLink to="/blog" class="btn btn-secondary">
+          <a href="https://zenn.dev/p/tcv_tech_blog" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
             すべての記事を見る
-          </NuxtLink>
+          </a>
         </div>
       </div>
     </section>
