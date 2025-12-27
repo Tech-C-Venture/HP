@@ -49,27 +49,27 @@
         <div v-else-if="filteredArticles && filteredArticles.length > 0">
           <div class="grid grid-cols-3 articles-grid">
             <article
-              v-for="article in paginatedArticles"
-              :key="article.id"
+              v-for="(article, index) in paginatedArticles"
+              :key="index"
               class="article-card"
             >
-              <NuxtLink :to="`/blog/${article.id}`" class="article-link">
+              <a :href="article.link" target="_blank" rel="noopener noreferrer" class="article-link">
 
                 <div class="article-content">
                   <div class="article-meta">
                     <time class="article-date">
-                      {{ formatDate(article.date) }}
+                      {{ formatDate(article.pubDate) }}
                     </time>
-                    <span v-if="article.tag && article.tag.length > 0" class="article-category">
-                      {{ article.tag[0] }}
+                    <span class="article-category">
+                      {{ article.creator }}
                     </span>
                   </div>
 
                   <h2 class="article-title">{{ article.title }}</h2>
                   <!-- 概要は本文から抽出 -->
-                  <p class="article-description">{{ extractDescription(article.body) }}</p>
+                  <p class="article-description">{{ extractDescription(article.description) }}</p>
                 </div>
-              </NuxtLink>
+              </a>
             </article>
           </div>
 
@@ -120,15 +120,14 @@ useSeoMeta({
 // パンくずリスト
 // 構造化データは後で追加
 
-// MicroCMSからデータ取得
-const { getBlogList } = useMicroCMS()
+// ZennのRSSフィードからデータ取得
+const { data: articlesData, pending } = await useAsyncData('zenn-blog-articles', async () => {
+  const response = await $fetch('/api/zenn-articles')
+  return response
+})
 
-const { data: articlesData, pending } = await useAsyncData('blog-articles', () =>
-  getBlogList()
-)
-
-// articles.contentsを使用（MicroCMSのレスポンス形式）
-const articles = computed(() => articlesData.value?.contents || [])
+// 記事データ
+const articles = computed(() => articlesData.value?.articles || [])
 
 // リアクティブな状態
 const searchQuery = ref('')
@@ -136,12 +135,12 @@ const selectedCategory = ref('')
 const currentPage = ref(1)
 const articlesPerPage = 9
 
-// タグ一覧を取得
+// 投稿者一覧を取得
 const categories = computed(() => {
   if (!articles.value) return []
-  const allTags = articles.value.flatMap(article => article.tag || [])
-  const uniqueTags = [...new Set(allTags)]
-  return uniqueTags
+  const allAuthors = articles.value.map(article => article.creator).filter(Boolean)
+  const uniqueAuthors = [...new Set(allAuthors)]
+  return uniqueAuthors
 })
 
 // フィルタリングされた記事
@@ -158,10 +157,10 @@ const filteredArticles = computed(() => {
     )
   }
 
-  // タグでフィルタ
+  // 投稿者でフィルタ
   if (selectedCategory.value) {
     filtered = filtered.filter(article =>
-      article.tag && article.tag.includes(selectedCategory.value)
+      article.creator === selectedCategory.value
     )
   }
 
@@ -193,10 +192,10 @@ const formatDate = (date) => {
 }
 
 // 本文から概要を抽出する関数
-const extractDescription = (body) => {
-  if (!body) return ''
+const extractDescription = (description) => {
+  if (!description) return ''
   // HTMLタグを除去してテキストのみを取得
-  const text = body.replace(/<[^>]*>/g, '')
+  const text = description.replace(/<[^>]*>/g, '')
   // 最初の100文字を取得
   return text.length > 100 ? text.substring(0, 100) + '...' : text
 }
