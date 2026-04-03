@@ -109,9 +109,9 @@
 <script setup>
 // SEO設定
 useSeoMeta({
-  title: 'Tech.C Venture - 自走できるエンジニアを育成する',
+  title: 'Tech.C Venture | 福岡テック公認学生エンジニアサークル',
   description: 'Tech.C.Ventureはメンバー全員が高め合い、学校の領域を超えて自走できるエンジニアを育成する団体です。',
-  ogTitle: 'Tech.C Venture - 自走できるエンジニアを育成する',
+  ogTitle: 'Tech.C Venture | 福岡テック公認学生エンジニアサークル',
   ogDescription: 'Tech.C.Ventureはメンバー全員が高め合い、学校の領域を超えて自走できるエンジニアを育成する団体です。',
   ogType: 'website',
   twitterCard: 'summary_large_image'

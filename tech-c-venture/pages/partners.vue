@@ -21,8 +21,9 @@
             :key="partner.id"
             class="partner-card"
           >
-            <NuxtLink
-              :to="`/partners/${partner.id}`"
+            <component
+              :is="partner.url ? 'a' : 'NuxtLink'"
+              v-bind="partner.url ? { href: partner.url, target: '_blank', rel: 'noopener noreferrer' } : { to: `/partners/${partner.id}` }"
               :title="partner.company"
               class="partner-link"
             >
@@ -40,7 +41,7 @@
               <div class="partner-info">
                 <h3 class="partner-name">{{ partner.company }}</h3>
               </div>
-            </NuxtLink>
+            </component>
           </div>
         </div>
       </div>

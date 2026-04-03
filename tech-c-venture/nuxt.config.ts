@@ -16,7 +16,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Tech.C Venture - 自走できるエンジニアを育成する',
+      title: 'Tech.C Venture | 福岡テック公認学生エンジニアサークル',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
