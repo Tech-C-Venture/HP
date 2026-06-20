@@ -113,7 +113,7 @@
     <section class="section-padding">
       <div class="container">
         <div class="text-center mb-2xl">
-          <h2>メンター紹介</h2>
+          <h2>代表紹介</h2>
           <p class="text-muted">
             経験豊富なエンジニアがメンバーの成長をサポートします。
           </p>
@@ -224,9 +224,9 @@
 // SEO設定
 useSeoMeta({
   title: 'Tech.C Ventureについて | 自走できるエンジニア育成団体',
-  description: 'Tech.C Ventureの団体概要、活動実績、メンター紹介、参加フローなどの詳細情報をご紹介します。',
+  description: 'Tech.C Ventureの団体概要、活動実績、代表紹介、参加フローなどの詳細情報をご紹介します。',
   ogTitle: 'Tech.C Ventureについて | 自走できるエンジニア育成団体',
-  ogDescription: 'Tech.C Ventureの団体概要、活動実績、メンター紹介、参加フローなどの詳細情報をご紹介します。',
+  ogDescription: 'Tech.C Ventureの団体概要、活動実績、代表紹介、参加フローなどの詳細情報をご紹介します。',
   ogType: 'website'
 })
 
