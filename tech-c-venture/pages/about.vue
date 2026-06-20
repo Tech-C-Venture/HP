@@ -130,12 +130,13 @@
               Tech.C Ventureの創設者。小学生時代からの開発歴があり学校サークルの在り方を変えようとしています。当団体ではIT初学者が躓かないように優しく支える場所を目指しています。
             </p>
             <div class="mentor-skills">
-              <span class="skill-tag">Next.js</span>
               <span class="skill-tag">TypeScript</span>
-              <span class="skill-tag">AWS</span>
-              <span class="skill-tag">Cloudflare</span>
+              <span class="skill-tag">Next.js</span>
+              <span class="skill-tag">Vue.js</span>
               <span class="skill-tag">Go</span>
-              <span class="skill-tag">Terraform</span>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">Cloudflare</span>
+              <span class="skill-tag">AWS</span>
             </div>
           </div>
         </div>
