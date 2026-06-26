@@ -91,7 +91,7 @@
           </p>
         </div>
 
-        <PartnersSlider />
+        <PartnersSlider :partners="partners" />
 
         <div class="text-center" style="margin-top: 2rem;">
           <NuxtLink to="/partners" class="btn btn-secondary">
@@ -104,6 +104,15 @@
 </template>
 
 <script setup>
+// スポンサーデータを1回だけ取得してキャッシュ
+const { getSponsorsList } = useMicroCMS()
+const { data: sponsorsData } = await useAsyncData('sponsors-slider', () => getSponsorsList(), {
+  getCachedData(key, nuxtApp) {
+    return nuxtApp.payload.data[key] ?? nuxtApp.static.data[key]
+  }
+})
+const partners = computed(() => sponsorsData.value?.contents || [])
+
 // SEO設定
 useSeoMeta({
   title: 'Tech.C Venture | 福岡テック学生エンジニアサークル',

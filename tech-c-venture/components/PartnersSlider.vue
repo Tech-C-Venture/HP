@@ -54,13 +54,12 @@
 </template>
 
 <script setup>
-const { getSponsorsList } = useMicroCMS()
-
-const { data: sponsorsData } = await useAsyncData('sponsors-slider', () =>
-  getSponsorsList()
-)
-
-const partners = computed(() => sponsorsData.value?.contents || [])
+defineProps({
+  partners: {
+    type: Array,
+    default: () => []
+  }
+})
 </script>
 
 <style scoped>
