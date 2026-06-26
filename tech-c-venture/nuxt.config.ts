@@ -11,12 +11,13 @@ export default defineNuxtConfig({
   seo: {
     siteName: 'Tech.C Venture',
     description: '自走できるエンジニアを育成する団体 Tech.C Venture',
-    url: 'https://techc-venture.com'
+    url: 'https://f-tcv.com',
+    titleTemplate: '%s'
   },
 
   app: {
     head: {
-      title: 'Tech.C Venture | 福岡テック公認学生エンジニアサークル',
+      title: 'Tech.C Venture | 福岡テック学生エンジニアサークル',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
