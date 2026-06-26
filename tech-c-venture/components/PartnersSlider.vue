@@ -1,7 +1,7 @@
 <template>
   <div class="partners-slider">
     <div class="slider-container">
-      <div class="slider-track">
+      <div class="slider-track" ref="trackRef">
         <div
           v-for="partner in partners"
           :key="`a-${partner.id}`"
@@ -54,11 +54,42 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   partners: {
     type: Array,
     default: () => []
   }
+})
+
+const trackRef = ref(null)
+let animationId = null
+let offset = 0
+let firstSetWidth = 0
+
+onMounted(() => {
+  nextTick(() => {
+    if (!trackRef.value || props.partners.length === 0) return
+    // 2コピー分のtrackの半分が1セット分の幅
+    firstSetWidth = trackRef.value.scrollWidth / 2
+
+    const step = () => {
+      offset += 0.5
+      if (offset >= firstSetWidth) {
+        // ゼロリセットせず差分を引いてシームレスに継続
+        offset -= firstSetWidth
+      }
+      if (trackRef.value) {
+        trackRef.value.style.transform = `translateX(-${offset}px)`
+      }
+      animationId = requestAnimationFrame(step)
+    }
+
+    animationId = requestAnimationFrame(step)
+  })
+})
+
+onUnmounted(() => {
+  if (animationId) cancelAnimationFrame(animationId)
 })
 </script>
 
@@ -79,16 +110,7 @@ defineProps({
 .slider-track {
   display: flex;
   width: max-content;
-  animation: scroll 20s linear infinite;
-}
-
-.slider-track:hover {
-  animation-play-state: paused;
-}
-
-@keyframes scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  will-change: transform;
 }
 
 .partner-item {
