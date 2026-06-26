@@ -3,48 +3,25 @@
     <div class="slider-container">
       <div class="slider-track" ref="trackRef">
         <div
-          v-for="partner in partners"
-          :key="`a-${partner.id}`"
+          v-for="item in displayItems"
+          :key="item._key"
+          :aria-hidden="item._copy > 0"
           class="partner-item"
         >
           <component
-            :is="partner.url ? 'a' : 'div'"
-            v-bind="partner.url ? { href: partner.url, target: '_blank', rel: 'noopener noreferrer' } : {}"
-            :title="partner.company"
+            :is="item.url ? 'a' : 'div'"
+            v-bind="item.url ? { href: item.url, target: '_blank', rel: 'noopener noreferrer' } : {}"
+            :title="item.company"
             class="partner-link"
           >
             <img
-              v-if="partner.companyImage"
-              :src="partner.companyImage.url"
-              :alt="partner.company"
+              v-if="item.companyImage"
+              :src="item.companyImage.url"
+              :alt="item.company"
               class="partner-logo"
             />
             <div v-else class="partner-logo-placeholder">
-              {{ partner.company }}
-            </div>
-          </component>
-        </div>
-        <!-- 無限ループ用複製セット -->
-        <div
-          v-for="partner in partners"
-          :key="`b-${partner.id}`"
-          aria-hidden="true"
-          class="partner-item"
-        >
-          <component
-            :is="partner.url ? 'a' : 'div'"
-            v-bind="partner.url ? { href: partner.url, target: '_blank', rel: 'noopener noreferrer' } : {}"
-            :title="partner.company"
-            class="partner-link"
-          >
-            <img
-              v-if="partner.companyImage"
-              :src="partner.companyImage.url"
-              :alt="partner.company"
-              class="partner-logo"
-            />
-            <div v-else class="partner-logo-placeholder">
-              {{ partner.company }}
+              {{ item.company }}
             </div>
           </component>
         </div>
@@ -54,11 +31,21 @@
 </template>
 
 <script setup>
+const COPIES = 4
+
 const props = defineProps({
   partners: {
     type: Array,
     default: () => []
   }
+})
+
+// 4コピー分フラットに展開。firstSetWidth = scrollWidth / COPIES で1セット幅を計算
+const displayItems = computed(() => {
+  if (!props.partners.length) return []
+  return Array.from({ length: COPIES }, (_, copy) =>
+    props.partners.map((p, i) => ({ ...p, _key: `${copy}-${i}`, _copy: copy }))
+  ).flat()
 })
 
 const trackRef = ref(null)
@@ -69,13 +56,11 @@ let firstSetWidth = 0
 onMounted(() => {
   nextTick(() => {
     if (!trackRef.value || props.partners.length === 0) return
-    // 2コピー分のtrackの半分が1セット分の幅
-    firstSetWidth = trackRef.value.scrollWidth / 2
+    firstSetWidth = trackRef.value.scrollWidth / COPIES
 
     const step = () => {
       offset += 0.5
       if (offset >= firstSetWidth) {
-        // ゼロリセットせず差分を引いてシームレスに継続
         offset -= firstSetWidth
       }
       if (trackRef.value) {
