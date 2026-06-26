@@ -1,11 +1,10 @@
 <template>
   <div class="partners-slider">
-    <div class="slider-container" ref="sliderContainer">
-      <div class="slider-track" :style="{ transform: `translateX(-${currentOffset}px)` }">
-        <!-- 最初のセット -->
+    <div class="slider-container">
+      <div class="slider-track">
         <div
           v-for="partner in partners"
-          :key="`first-${partner.id}`"
+          :key="`a-${partner.id}`"
           class="partner-item"
         >
           <component
@@ -25,10 +24,11 @@
             </div>
           </component>
         </div>
-        <!-- 無限ループのための複製セット -->
+        <!-- 無限ループ用複製セット -->
         <div
           v-for="partner in partners"
-          :key="`second-${partner.id}`"
+          :key="`b-${partner.id}`"
+          aria-hidden="true"
           class="partner-item"
         >
           <component
@@ -54,49 +54,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-
-// MicroCMSからスポンサー一覧を取得
 const { getSponsorsList } = useMicroCMS()
 
 const { data: sponsorsData } = await useAsyncData('sponsors-slider', () =>
   getSponsorsList()
 )
 
-// スポンサー.contentsを使用（MicroCMSのレスポンス形式）
 const partners = computed(() => sponsorsData.value?.contents || [])
-
-const sliderContainer = ref(null)
-const currentOffset = ref(0)
-const itemWidth = 200 // ロゴの幅 + マージン
-const slideSpeed = 0.5 // px/frame（少し遅くして滑らかに）
-
-let animationId = null
-
-// 無限スクロールアニメーション
-const animate = () => {
-  currentOffset.value += slideSpeed
-
-  // 最初のセットが完全に隠れたら、オフセットをリセット
-  // これにより第2セットが第1セットの位置に来て、途切れなく続く
-  const totalWidth = itemWidth * partners.value.length
-  if (currentOffset.value >= totalWidth) {
-    currentOffset.value = 0
-  }
-
-  animationId = requestAnimationFrame(animate)
-}
-
-onMounted(() => {
-  // アニメーション開始
-  animationId = requestAnimationFrame(animate)
-})
-
-onUnmounted(() => {
-  if (animationId) {
-    cancelAnimationFrame(animationId)
-  }
-})
 </script>
 
 <style scoped>
@@ -115,8 +79,17 @@ onUnmounted(() => {
 
 .slider-track {
   display: flex;
-  width: fit-content;
-  transition: none;
+  width: max-content;
+  animation: scroll 20s linear infinite;
+}
+
+.slider-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 .partner-item {
@@ -129,10 +102,9 @@ onUnmounted(() => {
 }
 
 .partner-link {
-  display: block;
+  display: flex;
   width: 100%;
   height: 80px;
-  display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -149,11 +121,6 @@ onUnmounted(() => {
   width: auto;
   height: auto;
   object-fit: contain;
-  transition: transform 0.2s ease;
-}
-
-.partner-link:hover .partner-logo {
-  transform: scale(1.05);
 }
 
 .partner-logo-placeholder {
@@ -179,7 +146,6 @@ onUnmounted(() => {
   border-color: var(--color-accent);
 }
 
-/* レスポンシブ対応 */
 @media (max-width: 768px) {
   .partner-item {
     width: 150px;
@@ -189,11 +155,5 @@ onUnmounted(() => {
   .partner-logo {
     max-height: 50px;
   }
-}
-
-/* 無限ループのために複製要素を追加 */
-.slider-track::after {
-  content: '';
-  display: flex;
 }
 </style>
