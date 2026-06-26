@@ -113,7 +113,7 @@
     <section class="section-padding">
       <div class="container">
         <div class="text-center mb-2xl">
-          <h2>メンター紹介</h2>
+          <h2>代表紹介</h2>
           <p class="text-muted">
             経験豊富なエンジニアがメンバーの成長をサポートします。
           </p>
@@ -130,12 +130,13 @@
               Tech.C Ventureの創設者。小学生時代からの開発歴があり学校サークルの在り方を変えようとしています。当団体ではIT初学者が躓かないように優しく支える場所を目指しています。
             </p>
             <div class="mentor-skills">
-              <span class="skill-tag">Next.js</span>
               <span class="skill-tag">TypeScript</span>
-              <span class="skill-tag">AWS</span>
-              <span class="skill-tag">Cloudflare</span>
+              <span class="skill-tag">Next.js</span>
+              <span class="skill-tag">Vue.js</span>
               <span class="skill-tag">Go</span>
-              <span class="skill-tag">Terraform</span>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">Cloudflare</span>
+              <span class="skill-tag">AWS</span>
             </div>
           </div>
         </div>
@@ -179,61 +180,6 @@
       </div>
     </section>
 
-    <!-- Sponsor Section -->
-    <section id="sponsor" class="section-padding">
-      <div class="container">
-        <div class="text-center mb-2xl">
-          <h2>協賛について</h2>
-          <p class="text-muted">
-            Tech.C Ventureの活動をサポートしていただける企業様を募集しています。
-          </p>
-        </div>
-
-        <div class="sponsor-content">
-          <div class="grid grid-cols-2">
-            <div class="sponsor-benefits">
-              <h3>協賛メリット</h3>
-              <ul>
-                <li><strong>優秀な人材との接点</strong> - 成長意欲の高い学生との交流機会</li>
-                <li><strong>採用活動支援</strong> - インターンシップや新卒採用の母集団形成</li>
-                <li><strong>技術力向上支援</strong> - 実践的な技術教育への貢献</li>
-                <li><strong>ブランディング効果</strong> - 教育支援企業としての認知度向上</li>
-              </ul>
-            </div>
-
-            <div class="sponsor-options">
-              <h3>協賛プラン</h3>
-              <div class="plan-item">
-                <h4>ゴールドスポンサー</h4>
-                <p>年間協賛金: 50万円〜</p>
-                <ul>
-                  <li>企業ロゴの掲載（大サイズ）</li>
-                  <li>技術講演・勉強会開催権</li>
-                  <li>優先的な学生紹介</li>
-                </ul>
-              </div>
-
-              <div class="plan-item">
-                <h4>シルバースポンサー</h4>
-                <p>年間協賛金: 20万円〜</p>
-                <ul>
-                  <li>企業ロゴの掲載（中サイズ）</li>
-                  <li>イベント共催権</li>
-                  <li>学生との交流機会</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="text-center" style="margin-top: 2rem;">
-            <a href="https://forms.gle/8NjDuEtRBN14kEXS9" class="btn btn-primary btn-lg" target="_blank">
-              協賛についてお問い合わせ
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- FAQ Section -->
     <section class="section-padding" style="background-color: var(--color-surface);">
       <div class="container">
@@ -269,13 +215,6 @@
               はい、オンラインでの参加も可能です。遠方にお住まいの方でも問題なく活動に参加していただけます。
             </p>
           </div>
-
-          <div class="faq-item">
-            <h3>就職活動のサポートはありますか？</h3>
-            <p>
-              はい、ポートフォリオ作成支援や面接対策、企業紹介など、就職活動を総合的にサポートします。
-            </p>
-          </div>
         </div>
       </div>
     </section>
@@ -286,9 +225,9 @@
 // SEO設定
 useSeoMeta({
   title: 'Tech.C Ventureについて | 自走できるエンジニア育成団体',
-  description: 'Tech.C Ventureの団体概要、活動実績、メンター紹介、参加フローなどの詳細情報をご紹介します。',
+  description: 'Tech.C Ventureの団体概要、活動実績、代表紹介、参加フローなどの詳細情報をご紹介します。',
   ogTitle: 'Tech.C Ventureについて | 自走できるエンジニア育成団体',
-  ogDescription: 'Tech.C Ventureの団体概要、活動実績、メンター紹介、参加フローなどの詳細情報をご紹介します。',
+  ogDescription: 'Tech.C Ventureの団体概要、活動実績、代表紹介、参加フローなどの詳細情報をご紹介します。',
   ogType: 'website'
 })
 
@@ -466,36 +405,6 @@ useSeoMeta({
   font-size: 1.5rem;
   color: var(--color-accent);
   font-weight: bold;
-}
-
-.sponsor-benefits ul,
-.sponsor-options ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sponsor-benefits li,
-.sponsor-options li {
-  padding: var(--space-sm) 0;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.sponsor-benefits li:last-child,
-.sponsor-options li:last-child {
-  border-bottom: none;
-}
-
-.plan-item {
-  background: white;
-  padding: var(--space-lg);
-  border-radius: var(--radius-md);
-  margin-bottom: var(--space-md);
-  border: 1px solid var(--color-border);
-}
-
-.plan-item h4 {
-  color: var(--color-accent);
-  margin-bottom: var(--space-sm);
 }
 
 .faq-list {

@@ -179,7 +179,7 @@ public/images/
 
 ## 📞 お問い合わせ
 
-- Email: info@dokkiitech.com
+- Email: contact@f-tcv.com
 - Website: https://techc-venture.com
 
 ---
